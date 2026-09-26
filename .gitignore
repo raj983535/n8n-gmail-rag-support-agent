@@ -1,0 +1,15 @@
+# Environment and secret files
+.env
+.env.local
+*.env
+
+# Operating System files
+.DS_Store
+Thumbs.db
+
+# IDE & Editor files
+.vscode/
+.idea/
+
+# n8n local runtime data
+.n8n/

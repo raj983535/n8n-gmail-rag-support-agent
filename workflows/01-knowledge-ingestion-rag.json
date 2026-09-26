@@ -1,0 +1,127 @@
+{
+  "name": "01 - Knowledge Ingestion & Vector Indexing (Pinecone)",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Support Knowledge Base Uploader",
+        "formDescription": "Upload documents (PDFs, TXT, DOCX) to expand the AI Customer Support Agent's knowledge base.",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "file",
+              "fieldType": "file"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.6,
+      "position": [
+        -576,
+        480
+      ],
+      "id": "5770e303-9631-4c0b-9a04-78d2b76e0a94",
+      "name": "On form submission"
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "customer-support-rag",
+          "mode": "list",
+          "cachedResultName": "customer-support-rag"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1.3,
+      "position": [
+        -288,
+        480
+      ],
+      "id": "53625f71-ffc2-46c3-a86b-88680bb35da8",
+      "name": "Pinecone Vector Store",
+      "credentials": {
+        "pineconeApi": {
+          "id": "",
+          "name": "Pinecone API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "text-embedding-3-large",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -304,
+        720
+      ],
+      "id": "1f6efa7c-d9d4-44ce-b8b3-ea968f755cae",
+      "name": "Embeddings OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "",
+          "name": "OpenAI API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "dataType": "binary",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        -80,
+        688
+      ],
+      "id": "545c2107-ca39-4c68-863f-162e00ddf79a",
+      "name": "Default Data Loader"
+    }
+  ],
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Pinecone Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Pinecone Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Pinecone Vector Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": false
+  }
+}
