@@ -98,10 +98,23 @@ n8n-gmail-rag-support-agent/
 
 ## 🛠️ Step-by-Step Installation
 
-### Step 1: Import the Workflow
-1. Open n8n.
-2. Click **Add Workflow** (`+`) > click **`...`** (top right) > **Import from File...**
-3. Select [`workflows/customer-support-rag-complete.json`](workflows/customer-support-rag-complete.json).
+### 📁 Understanding the Workflow Files (Choose Your Method)
+
+Inside the [`workflows/`](workflows/) folder, you will find 3 JSON files. We provide **two flexible ways** to import and run this system:
+
+| Import Option | File to Use | Best For | Description |
+| :--- | :--- | :--- | :--- |
+| **Method 1 (Recommended)** | [`workflows/customer-support-rag-complete.json`](workflows/customer-support-rag-complete.json) | **1-Click Setup** | Loads **both pipelines together on one canvas** (exact 1:1 match with the screenshot preview above). Ingestion and Support live side-by-side in one n8n workflow. |
+| **Method 2 (Modular)** | [`workflows/01-knowledge-ingestion-rag.json`](workflows/01-knowledge-ingestion-rag.json)<br>+ [`workflows/02-gmail-support-agent.json`](workflows/02-gmail-support-agent.json) | **Team Separation** | Two separate micro-workflows. Use this if you want one workflow for internal team uploads and another dedicated solely to customer support email processing. |
+
+---
+
+### Step 1: Import into n8n
+1. Open your n8n workspace.
+2. Click **Add Workflow** (`+`) > click the **`...`** menu in the top-right corner.
+3. Select **Import from File...**:
+   - **For 1-Click Setup:** Choose `workflows/customer-support-rag-complete.json`.
+   - *(Alternative)*: If using Method 2, import both `01-knowledge-ingestion-rag.json` and `02-gmail-support-agent.json` as separate workflows.
 
 ### Step 2: Link Your Credentials
 - Connect your **OpenAI API** credential to `OpenAI Chat Model`, `Embeddings OpenAI`, and `Embeddings OpenAI1`.
